@@ -22,9 +22,6 @@ export default function Home() {
               Organize, store, and share all your important links effortlessly with our comprehensive link management platform.
             </p>
           </div>
-          {/* <div className="w-full max-w-md mx-auto">
-            <UrlShortnerForm />
-          </div> */}
           <div className="mt-16 grid grid-cols-1 gap-8 md:grid-cols-4 max-w-5xl mx-auto">
             {features.map((feature) => ( <>
               <div key={feature.title} className='relative '>
