@@ -26,7 +26,7 @@ export default function Home() {
             {features.map((feature) => ( <>
               <div key={feature.title} className='relative '>
                 <div className='absolute top-0 flex w-full justify-center'>
-                  <div className='left-0 h-[1px] animate-border-width rounded-full bg-gradient-to-r from-[rgba(17,17,17,0)] via-white to-[rgba(17,17,17,0)] transition-all duration-1000' />
+                  <div className='left-0 h-[1px] animate-border-width rounded-full bg-gradient-to-r from-[rgba(17,17,17,0)] via-white to-[rgba(17,17,17,0)] transition-all duration-4000' />
                 </div>
                 <div className='flex flex-col h-full items-center justify-center rounded-md border border-gray-800 bg-gradient-to-b dark:from-gray-950 dark:to-black py-6 px-8 dark:text-white text-black '>
                   <div className="flex items-center gap-4">

@@ -57,7 +57,7 @@ export default {
 				sm: 'calc(var(--radius) - 4px)'
 			},
 			animation: {
-				"border-width": "border-width 3s infinite alternate",
+				"border-width": "border-width 5s infinite alternate",
 				"background-shine": "background-shine 4s linear infinite",
 			},
 			keyframes: {
