@@ -117,7 +117,6 @@ export function DeleteAccountDialog({ userId }: PasswordDialogProps) {
                                 <Button disabled={loading} variant="outline">Cancel</Button>
                             </DialogClose>
                             <Button type={'submit'} disabled={loading} >
-                                {/* {editingUrl ? "Save Changes" : "Create URL"} */}
                                 Delete Account
                             </Button>
                         </div>

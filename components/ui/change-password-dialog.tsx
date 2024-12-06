@@ -155,7 +155,6 @@ export function PasswordDialog({ userId }: PasswordDialogProps) {
                                 <Button disabled={loading} variant="outline">Cancel</Button>
                             </DialogClose>
                             <Button type={'submit'} disabled={loading} >
-                                {/* {editingUrl ? "Save Changes" : "Create URL"} */}
                                 Change Password
                             </Button>
                         </div>
