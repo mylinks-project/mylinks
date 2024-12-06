@@ -1,6 +1,6 @@
 import About from "@/components/app/About";
 
-const ContactPage = () => {
+const AboutPage = () => {
     return (
         <div className="mt-10">
             <About />
@@ -8,4 +8,4 @@ const ContactPage = () => {
     )
 };
 
-export default ContactPage;
+export default AboutPage;
