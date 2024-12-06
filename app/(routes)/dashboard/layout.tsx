@@ -4,7 +4,7 @@ import { Button } from "@/components/ui/button";
 
 export const metadata: Metadata = {
     title: "Dashboard",
-    description: "Shortify Dashboard",
+    description: "Mylinks Dashboard",
 };
 
 export default async function DashboardLayout({

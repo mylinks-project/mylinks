@@ -17,6 +17,15 @@ import { Menu, X } from "lucide-react"
 import { Button } from "../ui/button"
 import { ModeToggle } from "./Mode-Toggle"
 
+
+interface NavbarUserProps {
+    user: {
+        name?: string;
+        username?: string;
+        image?: string;
+    }
+}
+
 const components: { title: string; href: string; description: string }[] = [
     {
         title: "Centralized Link Management",
@@ -50,7 +59,7 @@ const components: { title: string; href: string; description: string }[] = [
     }
 ];
 
-export const Navbar = () => {
+export const Navbar: React.FC<NavbarUserProps> = ({ user }) => {
 
     const [dropdownMenu, setDropdownMenu] = React.useState(false);
 
@@ -124,11 +133,19 @@ export const Navbar = () => {
             </div>
             <div className="flex justify-center items-center gap-x-4">
                 <ModeToggle />
-                <Link href={'/register'}>
-                    <Button className='hidden h-10 animate-background-shine items-center justify-center rounded-md border border-gray-800 bg-[linear-gradient(110deg,#000103,45%,#1e2631,55%,#000103)] bg-[length:200%_100%] px-6 font-medium text-gray-200 transition-colors sm:inline-flex hover:opacity-80 hover:bg-black/10 trans'>
-                        Sign Up
-                    </Button>
-                </Link>
+                {user ?
+                    <Link href={'/dashboard/settings'}>
+                        <button className='hidden h-10 animate-background-shine items-center justify-center rounded-md border border-gray-800 bg-[linear-gradient(110deg,#000103,45%,#1e2631,55%,#000103)] bg-[length:200%_100%] px-4 font-medium text-gray-200 transition-colors sm:inline-flex hover:opacity-80 hover:bg-black/10 trans'>
+                        Settings
+                        </button>
+                    </Link>
+                    :
+                    <Link href={'/register'}>
+                        <Button className='hidden h-10 animate-background-shine items-center justify-center rounded-md border border-gray-800 bg-[linear-gradient(110deg,#000103,45%,#1e2631,55%,#000103)] bg-[length:200%_100%] px-6 font-medium text-gray-200 transition-colors sm:inline-flex hover:opacity-80 hover:bg-black/10 trans'>
+                            Sign Up
+                        </Button>
+                    </Link>
+                }
             </div>
             <button
                 onClick={() => setDropdownMenu(!dropdownMenu)}
