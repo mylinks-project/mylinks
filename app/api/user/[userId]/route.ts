@@ -3,7 +3,8 @@ import { prisma } from "@/lib/prisma"
 import bcrypt from "bcrypt"
 import { NextResponse } from "next/server";
 
-export async function GET(req: Request, { params }: { params: { userId: string } }) {
+export async function GET(req: Request, props: { params: Promise<{ userId: string }> }) {
+    const params = await props.params;
     try {
 
         if (!params.userId) {
@@ -24,7 +25,8 @@ export async function GET(req: Request, { params }: { params: { userId: string }
     }
 }
 
-export async function PATCH(req: Request, { params }: { params: { userId: string } }) {
+export async function PATCH(req: Request, props: { params: Promise<{ userId: string }> }) {
+    const params = await props.params;
     try {
         const session = await auth();
         const userId = session?.user.id;
@@ -81,7 +83,8 @@ export async function PATCH(req: Request, { params }: { params: { userId: string
     }
 }
 
-export async function PUT(req: Request, { params }: { params: { userId: string } }) {
+export async function PUT(req: Request, props: { params: Promise<{ userId: string }> }) {
+    const params = await props.params;
     try {
         const session = await auth();
         const { password, newPassword } = await req.json();
@@ -139,7 +142,8 @@ export async function PUT(req: Request, { params }: { params: { userId: string }
     }
 }
 
-export async function DELETE(req: Request, { params }: { params: { userId: string } }) {
+export async function DELETE(req: Request, props: { params: Promise<{ userId: string }> }) {
+    const params = await props.params;
     try {
         const session = await auth();
         const { password } = await req.json();
