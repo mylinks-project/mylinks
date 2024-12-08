@@ -30,7 +30,9 @@ model User {
   createdAt     DateTime  @default(now())
   updatedAt     DateTime  @updatedAt
 
-  accounts  Account[]
+  accounts Account[]
+  links    Link[]
+  Click    Click[]
 }
 
 model Account {
@@ -50,4 +52,34 @@ model Account {
   user User @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@unique([provider, providerAccountId])
+}
+
+model Link {
+  id        String   @id @default(cuid())
+  title     String
+  url       String // URL of the link
+  platform  String? // Optional field (e.g., "Instagram", "YouTube")
+  order     Int // Order of display
+  isVisible Boolean  @default(true) // If the link is visible
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  userId    String
+  user      User     @relation(fields: [userId], references: [id])
+  clicks    Click[]
+}
+
+model Click {
+  id         String    @id @default(cuid())
+  linkId     String
+  link       Link      @relation(fields: [linkId], references: [id])
+  userId     String?
+  user       User?     @relation(fields: [userId], references: [id])
+  ipAddress  String?
+  country    String?
+  city       String?
+  postalcode String?
+  device     String?
+  browser    String?
+  referer    String?
+  clickAt    DateTime? @default(now())
 }
