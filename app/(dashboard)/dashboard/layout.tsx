@@ -14,10 +14,16 @@ export default async function DashboardLayout({
 }>) {
 
     return (
-        <div className="dark:bg-black bg-white mt-16">
+        <div className="">
             <div className="flex justify-center items-center gap-x-1 pt-6 ">
                 <Link href={'/dashboard'}>
                     <Button>Dashboard</Button>
+                </Link>
+                <Link href={'/dashboard/links'}>
+                    <Button>Links</Button>
+                </Link>
+                <Link href={'/dashboard/profile-analytics'}>
+                    <Button>Profile Analytics</Button>
                 </Link>
                 <Link href={'/dashboard/settings'}>
                     <Button>Settings</Button>
@@ -25,5 +31,5 @@ export default async function DashboardLayout({
             </div>
             {children}
         </div>
-    )
+      )
 }

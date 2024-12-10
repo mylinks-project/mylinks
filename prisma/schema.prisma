@@ -26,11 +26,17 @@ model User {
   emailVerified DateTime?
   image         String?
   password      String?
+  bio           String?
   role          UserRole  @default(USER)
   createdAt     DateTime  @default(now())
   updatedAt     DateTime  @updatedAt
 
-  accounts  Account[]
+  accounts Account[]
+  links    Link[]
+  Click    Click[]
+
+  profileVisits ProfileVisit[] @relation("ProfileOwner")
+  visitorVisits ProfileVisit[] @relation("Visitor")
 }
 
 model Account {
@@ -50,4 +56,46 @@ model Account {
   user User @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@unique([provider, providerAccountId])
+}
+
+model Link {
+  id        String   @id @default(cuid())
+  title     String
+  url       String // URL of the link
+  platform  String? // Optional field (e.g., "Instagram", "YouTube")
+  order     Int // Order of display
+  isVisible Boolean  @default(true) // If the link is visible
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  userId    String
+  user      User     @relation(fields: [userId], references: [id])
+  clicks    Click[]
+}
+
+model ProfileVisit {
+  id         String   @id @default(cuid())
+  userId     String // The profile owner
+  user       User     @relation("ProfileOwner", fields: [userId], references: [id])
+  visitorId  String? // Optional: Track who visited the profile (if logged in)
+  visitor    User?    @relation("Visitor", fields: [visitorId], references: [id])
+  ipAddress  String?
+  country    String?
+  city       String?
+  postalCode String?
+  device     String?
+  browser    String?
+  referer    String?
+  visitAt    DateTime @default(now()) // Time of visit
+  clicks     Click[] // Relation to Click model
+}
+
+model Click {
+  id           String       @id @default(cuid())
+  linkId       String
+  link         Link         @relation(fields: [linkId], references: [id])
+  visitId      String
+  profileVisit ProfileVisit @relation(fields: [visitId], references: [id])
+  clickedAt    DateTime     @default(now())
+  User         User?        @relation(fields: [userId], references: [id])
+  userId       String?
 }
