@@ -26,6 +26,7 @@ model User {
   emailVerified DateTime?
   image         String?
   password      String?
+  bio           String?
   role          UserRole  @default(USER)
   createdAt     DateTime  @default(now())
   updatedAt     DateTime  @updatedAt
@@ -33,6 +34,9 @@ model User {
   accounts Account[]
   links    Link[]
   Click    Click[]
+
+  profileVisits ProfileVisit[] @relation("ProfileOwner")
+  visitorVisits ProfileVisit[] @relation("Visitor")
 }
 
 model Account {
@@ -68,18 +72,30 @@ model Link {
   clicks    Click[]
 }
 
-model Click {
-  id         String    @id @default(cuid())
-  linkId     String
-  link       Link      @relation(fields: [linkId], references: [id])
-  userId     String?
-  user       User?     @relation(fields: [userId], references: [id])
+model ProfileVisit {
+  id         String   @id @default(cuid())
+  userId     String // The profile owner
+  user       User     @relation("ProfileOwner", fields: [userId], references: [id])
+  visitorId  String? // Optional: Track who visited the profile (if logged in)
+  visitor    User?    @relation("Visitor", fields: [visitorId], references: [id])
   ipAddress  String?
   country    String?
   city       String?
-  postalcode String?
+  postalCode String?
   device     String?
   browser    String?
   referer    String?
-  clickAt    DateTime? @default(now())
+  visitAt    DateTime @default(now()) // Time of visit
+  clicks     Click[] // Relation to Click model
+}
+
+model Click {
+  id           String       @id @default(cuid())
+  linkId       String
+  link         Link         @relation(fields: [linkId], references: [id])
+  visitId      String
+  profileVisit ProfileVisit @relation(fields: [visitId], references: [id])
+  clickedAt    DateTime     @default(now())
+  User         User?        @relation(fields: [userId], references: [id])
+  userId       String?
 }
