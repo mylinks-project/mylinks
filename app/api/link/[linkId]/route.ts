@@ -85,7 +85,7 @@ export async function DELETE(req: Request, props: { params: Promise<{ linkId: st
             return NextResponse.json('Link not found!', { status: 400 });
         }
 
-        const deleteLink = await prisma.link.deleteMany({
+        const deleteLink = await prisma.link.delete({
             where: {
                 id: params.linkId
             }
