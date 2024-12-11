@@ -30,7 +30,7 @@ export async function PATCH(req: Request, props: { params: Promise<{ userId: str
     try {
         const session = await auth();
         const userId = session?.user.id;
-        const { name, username, email,image } = await req.json();
+        const { name, username, email,bio,image } = await req.json();
 
         if (!userId) {
             return NextResponse.json('Unauthorized', { status: 400 });
@@ -70,7 +70,8 @@ export async function PATCH(req: Request, props: { params: Promise<{ userId: str
                 name,
                 username,
                 email,
-                image
+                image,
+                bio
             }
         });
 
