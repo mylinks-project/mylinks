@@ -63,6 +63,7 @@ model Link {
   title     String
   url       String // URL of the link
   platform  String? // Optional field (e.g., "Instagram", "YouTube")
+  linkImage String?
   order     Int // Order of display
   isVisible Boolean  @default(true) // If the link is visible
   createdAt DateTime @default(now())

@@ -83,6 +83,10 @@ export const CellAction: React.FC<CellActionProps> = ({
                     <DropdownMenuLabel>
                         Actions
                     </DropdownMenuLabel>
+                    <DropdownMenuItem onClick={() => router.push(`/${data.username}`)}>
+                        <Link className="mr-2 h-4 w-4" />
+                        View User Profile
+                    </DropdownMenuItem>
                     <DropdownMenuItem onClick={() => onCopy(data.id)}>
                         <Copy className="mr-2 h-4 w-4" />
                         Copy Link Id
@@ -95,13 +99,17 @@ export const CellAction: React.FC<CellActionProps> = ({
                         <Link className="mr-2 h-4 w-4" />
                         View Link Clicks
                     </DropdownMenuItem>
+                    <DropdownMenuItem onClick={() => router.push(`/dashboard/settings`)}>
+                        <Edit className="mr-2 h-4 w-4" />
+                        Update User
+                    </DropdownMenuItem>
                     <DropdownMenuItem onClick={() => router.push(`/dashboard/links/${data.id}`)}>
                         <Edit className="mr-2 h-4 w-4" />
-                        Update
+                        Update Link
                     </DropdownMenuItem>
                     <DropdownMenuItem onClick={() => setOpen(true)}>
                         <Trash className="mr-2 h-4 w-4" />
-                        Delete
+                        Delete Link
                     </DropdownMenuItem>
                 </DropdownMenuContent>
             </DropdownMenu>

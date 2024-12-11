@@ -2,6 +2,7 @@
 
 import { Button } from "@/components/ui/button";
 import axios from "axios";
+import Image from "next/image";
 import Link from "next/link";
 
 interface ProfileLinkProps {
@@ -12,6 +13,7 @@ interface ProfileLinkProps {
     title: string;
     url: string;
     platform: string | null;
+    linkImage: string | null;
     order: number;
     isVisible: boolean;
 }
@@ -38,7 +40,15 @@ export default function ProfileLink({ link, profileVisitId }: { link: ProfileLin
                 variant="ghost"
                 className="w-full justify-start gap-3 py-6 border hover:scale-105 h-10 animate-background-shine items-center rounded-md border-gray-800 bg-[linear-gradient(110deg,#000103,45%,#1e2631,55%,#000103)] bg-[length:200%_100%] px-6 font-medium text-gray-200 transition-colors sm:inline-flex hover:opacity-80 hover:bg-black/10 trans"
             >
-                {link.platform}
+                {link.linkImage &&
+                    <Image
+                        src={link.linkImage}
+                        className="rounded border object-cover"
+                        alt="Image"
+                        width={30}
+                        height={30}
+                    />
+                }
                 <span>{link.title}</span>
             </Button>
         </Link>

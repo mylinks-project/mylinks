@@ -4,6 +4,7 @@ export interface User {
     username: string | undefined; 
     email: string | undefined; 
     image?: string | undefined;
+    bio:string | undefined;
     emailVerified?: string | undefined;
     createdAt?: string | undefined;
     isOAuth: boolean;

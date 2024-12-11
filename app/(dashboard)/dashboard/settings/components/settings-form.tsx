@@ -20,6 +20,7 @@ import { useToast } from "@/hooks/use-toast";
 import { FormError } from '@/components/auth/form-error';
 import { logout } from '@/actions/logout';
 import { LogOut } from 'lucide-react';
+import { Textarea } from '@/components/ui/textarea';
 
 interface SettingsFormProps {
     initialData: User;
@@ -30,6 +31,7 @@ const formSchema = z.object({
     name: z.string().min(3),
     username: z.string().min(3),
     email: z.string().email(),
+    bio: z.string().optional(),
     image: z.string().optional(),
 });
 
@@ -133,6 +135,23 @@ export const SettingsForm: React.FC<SettingsFormProps> = ({ initialData }) => {
                                 </FormItem>
                             )}
                         />
+                        <FormField
+                            control={form.control}
+                            name='bio'
+                            render={({ field }) => (
+                                <FormItem>
+                                    <FormLabel>Bio</FormLabel>
+                                    <FormControl>
+                                        <Textarea
+                                            placeholder="Tell us a little bit about yourself"
+                                            className="resize-none"
+                                            {...field}
+                                        />
+                                    </FormControl>
+                                    <FormMessage />
+                                </FormItem>
+                            )}
+                        />
                         {!initialData.isOAuth &&
                             <FormField
                                 control={form.control}
@@ -184,7 +203,7 @@ export const SettingsForm: React.FC<SettingsFormProps> = ({ initialData }) => {
                 {!initialData.isOAuth &&
                     <PasswordDialog userId={initialData.id} />
                 }
-                <Button variant={'destructive'} onClick={() => logout()}><LogOut className='w-5 h-5 mr-1'/> Logout</Button>
+                <Button variant={'destructive'} onClick={() => logout()}><LogOut className='w-5 h-5 mr-1' /> Logout</Button>
                 <DeleteAccountDialog userId={initialData.id} />
             </div>
         </>

@@ -24,6 +24,7 @@ const SettingsPage = async () => {
     name: user.name ?? "",
     username: user.username ?? "",
     email: user.email ?? "",
+    bio: user.bio ?? "",
     image: user?.image ?? undefined,
     emailVerified: user?.emailVerified ? format(user.emailVerified, 'MMMM do,yyyy') : undefined,
     createdAt: user?.createdAt ? format(user.createdAt, 'MMMM do,yyyy') : undefined,
