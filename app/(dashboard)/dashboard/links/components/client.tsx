@@ -33,7 +33,7 @@ export const LinkClient: React.FC<LinkClientProps> = ({
                 </Button>
             </div>
             <Separator />
-            <DataTable columns={columns} data={data} searchKey={"slug"} />
+            <DataTable columns={columns} data={data} searchKey={"title"} />
         </>
     )
 }

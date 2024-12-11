@@ -11,7 +11,7 @@ export async function PATCH(req: Request, props: { params: Promise<{ linkId: str
         const session = await auth();
         const userId = session?.user.id;
 
-        const { title, url, platform, isVisible, order } = await req.json();
+        const { title, url, platform, linkImage,isVisible, order } = await req.json();
         console.log(title, url, platform, isVisible, order);
 
 
@@ -32,8 +32,8 @@ export async function PATCH(req: Request, props: { params: Promise<{ linkId: str
         const isOrder = order ? order : 0;
 
         const updateLink = await prisma.link.update({
-            where:{
-                id:params.linkId
+            where: {
+                id: params.linkId
             },
             data: {
                 title,
@@ -41,11 +41,12 @@ export async function PATCH(req: Request, props: { params: Promise<{ linkId: str
                 platform: platform,
                 isVisible: isVisible,
                 order: isOrder,
+                linkImage,
                 userId: userId,
             }
         });
 
-     
+
         console.log(updateLink);
         return NextResponse.json(updateLink);
 

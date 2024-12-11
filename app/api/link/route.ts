@@ -9,7 +9,7 @@ export async function POST(req: Request) {
         const session = await auth();
         const userId = session?.user.id;
 
-        const { title, url, platform, isVisible, order } = await req.json();
+        const { title, url, platform, linkImage, isVisible, order } = await req.json();
         console.log(title, url, platform, isVisible, order);
 
 
@@ -35,7 +35,8 @@ export async function POST(req: Request) {
                 platform: platform,
                 isVisible: isVisible,
                 order: isOrder,
-                userId: userId ,
+                linkImage,
+                userId: userId,
             }
         });
 

@@ -16,7 +16,11 @@ export default async function UserPage(
   const userInfo = await prisma.user.findUnique({
     where: { username },
     include: {
-      links: true
+      links: {
+        where: {
+          isVisible: true
+        }
+      }
     }
   });
 
