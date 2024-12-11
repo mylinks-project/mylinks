@@ -16,7 +16,8 @@ import {
 import { Menu, X } from "lucide-react"
 import { Button } from "../ui/button"
 import { ModeToggle } from "./Mode-Toggle"
-
+import { Avatar, AvatarImage } from "../ui/avatar"
+import logoImage from '../../assets/logo-base-256x256.png'
 
 interface NavbarUserProps {
     user: {
@@ -68,6 +69,9 @@ export const Navbar: React.FC<NavbarUserProps> = ({ user }) => {
         <header className='z-20 w-full border-b flex items-center justify-between dark:bg-black bg-white h-16 fixed top-0 px-5 sm:px-10'>
             <div>
                 <Link href='/' className='flex items-center gap-x-2'>
+                    <Avatar>
+                        <AvatarImage src={logoImage.src} />
+                    </Avatar>
                     <p className='text-lg font-bold font-mono sm:text-xl'>Mylinks</p>
                 </Link>
             </div>
@@ -136,7 +140,7 @@ export const Navbar: React.FC<NavbarUserProps> = ({ user }) => {
                 {user ?
                     <Link href={'/dashboard/settings'}>
                         <button className='hidden h-10 animate-background-shine items-center justify-center rounded-md border border-gray-800 bg-[linear-gradient(110deg,#000103,45%,#1e2631,55%,#000103)] bg-[length:200%_100%] px-4 font-medium text-gray-200 transition-colors sm:inline-flex hover:opacity-80 hover:bg-black/10 trans'>
-                        Settings
+                            Settings
                         </button>
                     </Link>
                     :
