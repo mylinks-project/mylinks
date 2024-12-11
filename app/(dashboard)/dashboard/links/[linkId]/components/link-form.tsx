@@ -7,7 +7,7 @@ import { Separator } from "@/components/ui/separator"
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useState } from 'react';
-import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
+import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
 import axios from 'axios';
 import { useParams, useRouter } from 'next/navigation';
@@ -16,6 +16,7 @@ import { Checkbox } from '@/components/ui/checkbox';
 import { useToast } from '@/hooks/use-toast';
 import { FormError } from '@/components/auth/form-error';
 import { Trash } from 'lucide-react';
+import ImageUpload from '@/components/ui/image-upload';
 
 interface LinkFormProps {
     initialData: LinkProps | null | undefined;
@@ -43,9 +44,51 @@ const formSchema = z.object({
     }).optional().or(z.literal("")),
     order: z.number(),
     isVisible: z.boolean().optional(),
+    linkImage: z.string().optional(),
 });
 
 type LinkFormValues = z.infer<typeof formSchema>
+
+type TemplateKey = keyof typeof templates; // "Instagram" | "Twitter" | "YouTube"
+
+const templates = {
+    Instagram: {
+        platform: "Instagram",
+        title: "My Instagram Profile",
+        url: "https://instagram.com/yourusername",
+        linkImage: 'https://upload.wikimedia.org/wikipedia/commons/thumb/e/e7/Instagram_logo_2016.svg/132px-Instagram_logo_2016.svg.png?20210403190622'
+    },
+    Twitter: {
+        platform: "Twitter",
+        title: "My Twitter Profile",
+        url: "https://twitter.com/yourusername",
+        linkImage: 'https://www.logo.wine/a/logo/Twitter/Twitter-Logo.wine.svg'
+    },
+    YouTube: {
+        platform: "YouTube",
+        title: "My YouTube Channel",
+        url: "https://youtube.com/channel/yourchannel",
+        linkImage: 'https://t3.ftcdn.net/jpg/04/74/05/94/360_F_474059464_qldYuzxaUWEwNTtYBJ44VN89ARuFktHW.jpg'
+    },
+    GitHub: {
+        platform: "GitHub",
+        title: "My GitHub",
+        url: "https://github.com/",
+        linkImage: 'https://www.logo.wine/a/logo/GitHub/GitHub-Logo.wine.svg'
+    },
+    OnlyFans: {
+        platform: "OnlyFans",
+        title: "My OnlyFans",
+        url: "https://youtube.com/channel/yourchannel",
+        linkImage: 'https://i.pinimg.com/736x/db/61/06/db61064824c35478f29de95608312454.jpg'
+    },
+    WebSite: {
+        platform: "WebSite",
+        title: "My WebSite",
+        url: "https://",
+        linkImage: 'https://t4.ftcdn.net/jpg/01/33/48/03/240_F_133480376_PWlsZ1Bdr2SVnTRpb8jCtY59CyEBdoUt.jpg'
+    },
+};
 
 export const LinkForm: React.FC<LinkFormProps> = ({
     initialData,
@@ -54,9 +97,18 @@ export const LinkForm: React.FC<LinkFormProps> = ({
     const { toast } = useToast();
     const params = useParams();
     const router = useRouter();
+
+    const [selectedTemplate, setSelectedTemplate] = useState<TemplateKey | null>(null);
+
     const [open, setOpen] = useState(false);
     const [loading, setLoading] = useState(false);
     const [isError, setIsError] = useState('');
+
+
+    const applyTemplate = (template: TemplateKey) => {
+        form.reset(templates[template]);
+        setSelectedTemplate(template);
+    };
 
     // const [qrCode, setQrCode] = useState(!!initialData?.updatedAt); // Use the initial value if editing
 
@@ -69,13 +121,15 @@ export const LinkForm: React.FC<LinkFormProps> = ({
                 platform: initialData.platform ?? '',
                 order: initialData.order ?? 0,
                 isVisible: initialData.isVisible ?? false,
+                linkImage: ''
             }
             : {
                 url: '',
                 title: '',
                 platform: '',
                 order: 0,
-                isVisible: false,
+                isVisible: true,
+                linkImage: ''
             },
     });
 
@@ -169,6 +223,21 @@ export const LinkForm: React.FC<LinkFormProps> = ({
                         <Trash className="h-4 w-4" />
                     </Button>
                 }
+
+            </div>
+            <Separator />
+
+            <div className='flex justify-center items-center space-x-4'>
+                <h2>Select Default templete</h2>
+                {Object.keys(templates).map((key) => (
+                    <Button
+                        key={key}
+                        variant={selectedTemplate === key ? 'default' : 'outline'}
+                        onClick={() => applyTemplate(key as keyof typeof templates)}  // Type assertion here
+                    >
+                        {key}
+                    </Button>
+                ))}
             </div>
             <Separator />
             <Form {...form}>
@@ -213,6 +282,7 @@ export const LinkForm: React.FC<LinkFormProps> = ({
                                 </FormItem>
                             )}
                         />
+
                         {/* <FormField
                             control={form.control}
                             name='order'
@@ -231,9 +301,12 @@ export const LinkForm: React.FC<LinkFormProps> = ({
                             name='isVisible'
                             render={({ field }) => (
                                 <FormItem className="flex flex-row items-center space-x-3 space-y-0 rounded-md border p-3 shadow">
-                                    <FormLabel className="flex items-center gap-x-2">
-                                        Archive (optional)
-                                    </FormLabel>
+                                    <div className='flex flex-col'>
+                                        <FormLabel className="flex items-center gap-x-2">
+                                            Link Visible (optional)
+                                        </FormLabel>
+                                        <FormDescription>This link will be visible in your profile</FormDescription>
+                                    </div>
                                     <FormControl>
                                         <Checkbox
                                             checked={field.value}
@@ -243,6 +316,26 @@ export const LinkForm: React.FC<LinkFormProps> = ({
                                 </FormItem>
                             )}
                         />
+
+                        <FormField
+                            control={form.control}
+                            name='linkImage'
+                            render={({ field }) => (
+                                <FormItem>
+                                    <FormLabel>Link Image</FormLabel>
+                                    <FormControl>
+                                        <ImageUpload
+                                            value={field.value ? [field.value] : []}
+                                            onChange={(url) => field.onChange(url)}
+                                            onRemove={() => field.onChange('')}
+                                            disabeld={loading}
+                                        />
+                                    </FormControl>
+                                    <FormMessage />
+                                </FormItem>
+                            )}
+                        />
+
                         {/* <FormField
                             control={form.control}
                             name="expiredAt"

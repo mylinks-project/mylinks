@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
+import { ModeToggle } from "@/components/app/Mode-Toggle";
 
 export const metadata: Metadata = {
     title: "Dashboard",
@@ -28,6 +29,7 @@ export default async function DashboardLayout({
                 <Link href={'/dashboard/settings'}>
                     <Button>Settings</Button>
                 </Link>
+                <ModeToggle/>
             </div>
             {children}
         </div>
