@@ -4,7 +4,8 @@ import { ClickColumn } from './components/columns';
 import { format } from 'date-fns';
 import { prisma } from '@/lib/prisma';
 
-const ClickPage = async ({ params }: { params: { linkId: string } }) => {
+const ClickPage = async (props: { params: Promise<{ linkId: string }> }) => {
+  const params = await props.params;
 
   const clicks = await prisma.click.findMany({
     where: {
