@@ -17,7 +17,7 @@ type UserProfileProps = {
         url: string;
         platform?: string | null;
         linkImage?: string | null;
-        order: number | null;
+        order: number;
         isVisible: boolean | null;
     }[]
 };
@@ -44,7 +44,7 @@ export default function UserProfilePage({ user }: { user: UserProfileProps }) {
                     </p>
                 </div>
                 <div className="space-y-4">
-                    {user?.links.map((link) => (
+                    {user?.links.sort((a, b) => a.order - b.order).map((link) => (
                         <Link
                             key={link.id}
                             href={link.url}

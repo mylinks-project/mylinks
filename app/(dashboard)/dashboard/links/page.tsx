@@ -18,7 +18,7 @@ type UserType = {
     url: string;
     platform?: string | null;
     linkImage?: string | null;
-    order: number | null;
+    order: number ;
     isVisible: boolean | null;
   }[];
 };

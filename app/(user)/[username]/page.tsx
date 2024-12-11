@@ -44,7 +44,7 @@ export default async function UserPage(
           </p>
         </div>
         <div className="space-y-4">
-          {userInfo?.links.map((link) => (
+          {userInfo?.links.sort((a, b) => a.order - b.order).map((link) => (
             <ProfileLink key={link.id} link={link} profileVisitId={visitProfile.data.profileVisitId} />
           ))}
         </div>
