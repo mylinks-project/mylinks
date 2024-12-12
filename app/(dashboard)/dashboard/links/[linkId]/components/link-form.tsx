@@ -230,8 +230,9 @@ export const LinkForm: React.FC<LinkFormProps> = ({
             </div>
             <Separator />
 
-            <div className='flex justify-center items-center space-x-4'>
+            <div className='flex flex-col justify-center items-center gap-y-4 space-x-4'>
                 <h2>Select Default templete</h2>
+                <div className='flex flex-wrap justify-center items-center gap-2'>
                 {Object.keys(templates).map((key) => (
                     <Button
                         key={key}
@@ -241,6 +242,8 @@ export const LinkForm: React.FC<LinkFormProps> = ({
                         {key}
                     </Button>
                 ))}
+                </div>
+
             </div>
             <Separator />
             <Form {...form}>
