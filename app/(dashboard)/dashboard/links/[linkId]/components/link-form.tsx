@@ -77,7 +77,7 @@ const templates = {
         platform: "GitHub",
         title: "My GitHub",
         url: "https://github.com/<username>",
-        linkImage: 'https://www.logo.wine/a/logo/GitHub/GitHub-Logo.wine.svg'
+        linkImage: 'https://cdn.pixabay.com/photo/2022/01/30/13/33/github-6980894_1280.png'
     },
     OnlyFans: {
         platform: "OnlyFans",
