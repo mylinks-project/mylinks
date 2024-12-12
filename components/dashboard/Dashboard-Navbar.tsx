@@ -38,7 +38,7 @@ export const DashboardNavbar = () => {
             <div>
                 <Link href='/' className='flex items-center gap-x-2'>
                     <Avatar>
-                        <AvatarImage src={logoImage.src } />
+                        <AvatarImage src={logoImage.src} />
                     </Avatar>
                     <p className='text-lg font-bold font-mono sm:text-xl'>Mylinks</p>
                 </Link>
@@ -63,6 +63,29 @@ export const DashboardNavbar = () => {
             >
                 {dropdownMenu ? <X size={20} /> : <Menu size={20} />}
             </button>
+            {dropdownMenu && (
+                <div className="z-20 w-56 fixed top-16 right-4 border bg-white dark:bg-black sm:hidden">
+                    <ul className="flex flex-col p-2 rounded-md">
+                        {routes.map((route) => (
+                            <li key={route.href}>
+                                <Link
+                                    href={route.href}
+                                    onClick={() => setDropdownMenu(false)}
+                                    className={cn(
+                                        "block text-xs font-medium py-2 text-center hover:text-black sm:text-sm",
+                                        route.active ? "text-black" : "text-neutral-500"
+                                    )}
+                                >
+                                    {route.label}
+                                </Link>
+                            </li>
+                        ))}
+                        <li>
+                            <Link href={'/dashboard/settings'} className="block text-xs font-medium py-2 text-center hover:text-black sm:text-sm">Settings</Link>
+                        </li>
+                    </ul>
+                </div>
+            )}
         </header >
     )
 }
