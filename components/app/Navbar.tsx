@@ -161,20 +161,50 @@ export const Navbar: React.FC<NavbarUserProps> = ({ user }) => {
             {dropdownMenu && (
                 <div className="z-20 w-56 fixed top-16 right-4 border bg-white dark:bg-black text-black dark:text-white sm:hidden">
                     <ul className="flex flex-col p-2 rounded-md">
-                        {components.map((route) => (
-                            <li key={route.href}>
-                                <Link
-                                    href={route.href}
-                                    onClick={() => setDropdownMenu(false)}
-                                    className={cn(
-                                        "block text-xs font-medium py-2 text-center hover:text-black sm:text-sm",
-                                        // route.active ? "text-black" : "text-neutral-500"
-                                    )}
-                                >
-                                    {route.title}
-                                </Link>
-                            </li>
-                        ))}
+                        <li>
+                            <Link
+                                href={'/features'}
+                                onClick={() => setDropdownMenu(false)}
+                                className={cn(
+                                    "block text-xs font-medium py-2 text-center hover:text-black sm:text-sm",
+                                )}
+                            >
+                                Features
+                            </Link>
+                        </li>
+                        <li>
+                            <Link
+                                href={'/pricing'}
+                                onClick={() => setDropdownMenu(false)}
+                                className={cn(
+                                    "block text-xs font-medium py-2 text-center hover:text-black sm:text-sm",
+                                )}
+                            >
+                                Pricing
+                            </Link>
+                        </li>
+                        <li>
+                            <Link
+                                href={'/about'}
+                                onClick={() => setDropdownMenu(false)}
+                                className={cn(
+                                    "block text-xs font-medium py-2 text-center hover:text-black sm:text-sm",
+                                )}
+                            >
+                                About Us
+                            </Link>
+                        </li>
+                        <li>
+                            <Link
+                                href={'/register'}
+                                onClick={() => setDropdownMenu(false)}
+                                className={cn(
+                                    "block text-xs font-medium py-2 text-center hover:text-black sm:text-sm",
+                                )}
+                            >
+                               Sign Up
+                            </Link>
+                        </li>
                     </ul>
                 </div>
             )}
