@@ -37,7 +37,7 @@ export const metadata: Metadata = {
     title: "Mylinks - Your Personalized Link Hub",
     description:
       "Easily manage and share all your important links in one place with Mylinks. Perfect for creators, businesses, and individuals.",
-    url: "https://mylinks-is.vercel.app",
+    url: "https://my-links-app.vercel.app",
     siteName: "Mylinks",
     images: [
       {
