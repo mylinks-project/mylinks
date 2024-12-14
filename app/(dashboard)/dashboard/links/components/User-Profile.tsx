@@ -17,6 +17,7 @@ type UserProfileProps = {
         url: string;
         platform?: string | null;
         linkImage?: string | null;
+        gifImage?: string | null;
         order: number;
         isVisible: boolean | null;
     }[]
@@ -58,13 +59,23 @@ export default function UserProfilePage({ user }: { user: UserProfileProps }) {
                                 {link.linkImage &&
                                     <Image
                                         src={link.linkImage}
-                                        className="rounded border object-cover"
+                                        className="rounded object-cover"
                                         alt="Image"
                                         width={30}
                                         height={30}
                                     />
                                 }
                                 <span>{link.title}</span>
+                                {link.gifImage &&
+                                    <Image
+                                        src={link.gifImage}
+                                        className="rounded object-cover "
+                                        alt="Image"
+                                        width={42}
+                                        height={30}
+                                        loading={'eager'}
+                                    />
+                                }
                             </Button>
                         </Link>
                     ))}

@@ -18,6 +18,7 @@ type UserType = {
     url: string;
     platform?: string | null;
     linkImage?: string | null;
+    gifImage?: string | null;
     order: number ;
     isVisible: boolean | null;
   }[];
@@ -55,6 +56,7 @@ const LinkPage = async () => {
     title: link.title,
     platform: link.platform ?? null,
     linkImage: link.linkImage ?? null,
+    gifImage: link.gifImage ?? null,
     url: link.url,
     order: link.order ?? 0, 
     isVisible: link.isVisible ?? false, 

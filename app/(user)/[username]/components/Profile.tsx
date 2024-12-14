@@ -14,6 +14,7 @@ interface ProfileLinkProps {
     url: string;
     platform: string | null;
     linkImage: string | null;
+    gifImage: string | null;
     order: number;
     isVisible: boolean;
 }
@@ -50,6 +51,16 @@ export default function ProfileLink({ link, profileVisitId }: { link: ProfileLin
                     />
                 }
                 <span>{link.title}</span>
+                {link.gifImage &&
+                    <Image
+                        src={link.gifImage}
+                        className="rounded object-cover "
+                        alt="Image"
+                        width={42}
+                        height={30}
+                        loading={'eager'}
+                    />
+                }
             </Button>
         </Link>
     );
