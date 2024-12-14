@@ -20,23 +20,10 @@ import ImageUpload from '@/components/ui/image-upload';
 import Image from 'next/image';
 import Link from 'next/link';
 import GifsSelector from '@/components/dashboard/Gifs-Selector-Dialog';
+import { LinkProps } from '@/types/types';
 
 interface LinkFormProps {
     initialData: LinkProps | null | undefined;
-}
-
-export type LinkProps = {
-    id: string;
-    title: string;
-    url: string;
-    platform?: string | null;
-    linkImage?: string | null;
-    gifImage?: string | null;
-    order: number | null;
-    isVisible: boolean | null;
-    userId: string | null;
-    createdAt: Date;
-    updatedAt: Date;
 }
 
 const formSchema = z.object({

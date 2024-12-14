@@ -4,15 +4,8 @@ import React, { useRef, useState } from 'react';
 import { Check } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import Link from 'next/link';
+import { PricingCardProps } from '@/types/types';
 
-interface PricingCardProps {
-    name: string;
-    price: number;
-    featured: boolean;
-    features: string[];
-    description?: string;
-
-}
 
 const PricingCard = ({ plans }: { plans: PricingCardProps }) => {
     const divRef = useRef<HTMLDivElement>(null);

@@ -7,7 +7,7 @@ import {
     DropdownMenuLabel,
     DropdownMenuTrigger
 } from "@/components/ui/dropdown-menu";
-import { LinkColumn } from "./columns";
+import { LinkColumn } from '@/types/types';
 import { Button } from "@/components/ui/button";
 import { Copy, Edit, Link, MoreHorizontal, Trash } from "lucide-react";
 import { useRouter } from "next/navigation";

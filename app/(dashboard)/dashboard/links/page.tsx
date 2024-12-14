@@ -1,29 +1,11 @@
 import React from 'react';
 import { LinkClient } from './components/client';
-import { LinkColumn } from './components/columns';
 import { format } from 'date-fns';
 import { prisma } from '@/lib/prisma';
 import { auth } from '@/auth';
 import { Separator } from '@/components/ui/separator';
 import UserProfilePage from './components/User-Profile';
-
-type UserType = {
-  name: string | null;
-  username: string | null;
-  bio: string | null;
-  userImage: string | null;
-  links: {
-    id: string;
-    title: string;
-    url: string;
-    platform?: string | null;
-    linkImage?: string | null;
-    gifImage?: string | null;
-    order: number ;
-    isVisible: boolean | null;
-  }[];
-};
-
+import { LinkColumn, UserProfileLinkProps } from '@/types/types';
 
 const LinkPage = async () => {
 
@@ -39,7 +21,7 @@ const LinkPage = async () => {
     }
   });
 
-  const formattedUser: UserType = {
+  const formattedUser:UserProfileLinkProps = {
     name: user?.name ?? null,
     username: user?.username ?? null,
     bio: user?.bio ?? null,

@@ -1,23 +1,10 @@
 'use client';
 
 import { Button } from "@/components/ui/button";
+import { ProfileLinkProps } from "@/types/types";
 import axios from "axios";
 import Image from "next/image";
 import Link from "next/link";
-
-interface ProfileLinkProps {
-    userId: string;
-    id: string;
-    createdAt: Date;
-    updatedAt: Date;
-    title: string;
-    url: string;
-    platform: string | null;
-    linkImage: string | null;
-    gifImage: string | null;
-    order: number;
-    isVisible: boolean;
-}
 
 const handleLinkClick = async (profileVisitId: string, linkId: string) => {
     try {

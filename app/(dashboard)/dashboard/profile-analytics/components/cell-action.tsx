@@ -7,15 +7,15 @@ import {
     DropdownMenuLabel,
     DropdownMenuTrigger
 } from "@/components/ui/dropdown-menu";
-import { ProfileVisitColumn } from "./columns";
 import { Button } from "@/components/ui/button";
 import { Copy, Link, MoreHorizontal } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useEffect } from "react";
 import { useToast } from "@/hooks/use-toast";
+import { ProfileVisitColumn } from "@/types/types";
 
 interface CellActionProps {
-    data: ProfileVisitColumn
+    data: ProfileVisitColumn;
 }
 
 export const CellAction: React.FC<CellActionProps> = ({

@@ -1,3 +1,4 @@
+import { PricingCardProps } from "@/types/types";
 import PricingCard from "./Pricing-Card";
 
 export default function Pricing() {
@@ -18,14 +19,6 @@ export default function Pricing() {
       </div>
     </div>
   );
-}
-
-interface PricingCardProps {
-  name: string;
-  price: number;
-  featured: boolean;
-  features: string[];
-  description?: string;
 }
 
 const plans: PricingCardProps[] = [

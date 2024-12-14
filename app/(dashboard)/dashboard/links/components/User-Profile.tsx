@@ -1,33 +1,13 @@
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
+import { UserProfileLinkProps } from "@/types/types";
 import {
     User
 } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 
-type UserProfileProps = {
-    name: string | null;
-    username: string | null;
-    bio: string | null;
-    userImage: string | null;
-    links: {
-        id: string;
-        title: string;
-        url: string;
-        platform?: string | null;
-        linkImage?: string | null;
-        gifImage?: string | null;
-        order: number;
-        isVisible: boolean | null;
-    }[]
-};
-
-
-
-export default function UserProfilePage({ user }: { user: UserProfileProps }) {
-
-
+export default function UserProfilePage({ user }: { user: UserProfileLinkProps }) {
     return (
         <main className="min-h-screen py-12 px-4">
             <div className="max-w-md mx-auto space-y-8">
