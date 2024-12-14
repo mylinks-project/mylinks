@@ -2,21 +2,7 @@
 
 import { ColumnDef } from "@tanstack/react-table"
 import { CellAction } from "./cell-action";
-
-export type ProfileVisitColumn = {
-    id: string;
-    userId: string | null;
-    visitorId: string | null;
-    ipAddress: string | null;
-    clicks: number;
-    country: string | null;
-    city: string | null;
-    postalCode: string | null;
-    device: string | null;
-    browser: string | null;
-    referer: string | null;
-    visitAt: string;
-}
+import { ProfileVisitColumn } from "@/types/types";
 
 export const columns: ColumnDef<ProfileVisitColumn>[] = [
     {

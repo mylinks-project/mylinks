@@ -1,9 +1,9 @@
 import React from 'react';
 import { ProfileClient } from './components/client';
-import { ProfileVisitColumn } from './components/columns';
 import { format } from 'date-fns';
 import { prisma } from '@/lib/prisma';
 import { auth } from '@/auth';
+import { ProfileVisitColumn } from '@/types/types';
 
 const ProfileAnalyticsPage = async () => {
 
@@ -34,7 +34,7 @@ const ProfileAnalyticsPage = async () => {
     device: visit.device,
     browser: visit.browser,
     referer: visit.referer,
-    visitAt: format(visit.visitAt, 'HH:mm MMMM do,yyyy') ,
+    visitAt: format(visit.visitAt, 'HH:mm MMMM do,yyyy'),
   }))
 
 

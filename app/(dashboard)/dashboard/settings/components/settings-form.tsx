@@ -21,21 +21,13 @@ import { FormError } from '@/components/auth/form-error';
 import { logout } from '@/actions/logout';
 import { LogOut } from 'lucide-react';
 import { Textarea } from '@/components/ui/textarea';
+import { SettingsSchema } from '@/schemas';
 
 interface SettingsFormProps {
     initialData: User;
 }
 
-const formSchema = z.object({
-    id: z.string(),
-    name: z.string().min(3),
-    username: z.string().min(3),
-    email: z.string().email(),
-    bio: z.string().optional(),
-    image: z.string().optional(),
-});
-
-type SettingFormValues = z.infer<typeof formSchema>
+type SettingFormValues = z.infer<typeof SettingsSchema>
 
 export const SettingsForm: React.FC<SettingsFormProps> = ({ initialData }) => {
 
@@ -46,7 +38,7 @@ export const SettingsForm: React.FC<SettingsFormProps> = ({ initialData }) => {
     const [isError, setIsError] = useState('');
 
     const form = useForm<SettingFormValues>({
-        resolver: zodResolver(formSchema),
+        resolver: zodResolver(SettingsSchema),
         defaultValues: initialData
     });
 

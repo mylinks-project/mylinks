@@ -21,42 +21,16 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { Separator } from './separator';
 import { useToast } from '@/hooks/use-toast';
 import { FormError } from '../auth/form-error';
+import { ResetPasswordSchema } from '@/schemas';
 
-const formSchema = z.object({
-    password: z.string().min(6, {
-        message: "Password must be at least 6 characters.",
-    }),
-    newPassword: z.string().min(6, {
-        message: "New password must be at least 6 characters.",
-    }),
-    confirmNewPassword: z.string().min(6, {
-        message: "Confirm new password must be at least 6 characters.",
-    })
-}).refine((data) => {
-    if (data.newPassword !== data.confirmNewPassword) {
-        return false;
-    }
-
-    return true;
-}, {
-    message: "New password And Confirm New Password should be same",
-    path: ["confirmNewPassword"]
-});
-
-
-interface PasswordDialogProps {
-    userId: string;
-}
-
-
-export function PasswordDialog({ userId }: PasswordDialogProps) {
+export function PasswordDialog({ userId }: { userId: string }) {
     const { toast } = useToast();
     const [isError, setIsError] = useState('');
     const [loading, setLoading] = useState(false);
     const [isOpen, setIsOpen] = useState(false);
 
-    const form = useForm<z.infer<typeof formSchema>>({
-        resolver: zodResolver(formSchema),
+    const form = useForm<z.infer<typeof ResetPasswordSchema>>({
+        resolver: zodResolver(ResetPasswordSchema),
         defaultValues: {
             password: '',
             newPassword: '',
@@ -64,7 +38,7 @@ export function PasswordDialog({ userId }: PasswordDialogProps) {
         },
     });
 
-    const onSubmit = async (values: z.infer<typeof formSchema>) => {
+    const onSubmit = async (values: z.infer<typeof ResetPasswordSchema>) => {
         try {
             setLoading(true);
             await axios.put(`/api/user/${userId}`, values);
@@ -76,16 +50,16 @@ export function PasswordDialog({ userId }: PasswordDialogProps) {
             if (error instanceof Error) {
                 setIsError(error.message);
                 toast({
-                  title: "Something went wrong",
-                  description: error.message,
+                    title: "Something went wrong",
+                    description: error.message,
                 });
-              } else {
+            } else {
                 setIsError("An unexpected error occurred.");
                 toast({
-                  title: "Something went wrong",
-                  description: "An unexpected error occurred.",
+                    title: "Something went wrong",
+                    description: "An unexpected error occurred.",
                 });
-              }
+            }
         } finally {
             setLoading(false);
         }

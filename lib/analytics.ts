@@ -1,19 +1,6 @@
-import { ClickAnalytics, ChartData, AnalyticsPeriod } from "@/types/analytics";
+import { ClickAnalytics, ChartData, AnalyticsPeriod, } from "@/types/analytics";
 import { formatDate, formatMonth } from "@/lib/date-utils";
-
-interface RawClickData {
-  id: string;
-  userId: string;
-  visitorId: string | null;
-  ipAddress: string | null;
-  country: string | null;
-  city: string | null;
-  postalCode: string | null;
-  device: string | null;
-  browser: string | null;
-  referer: string | null;
-  visitAt: Date;
-}
+import { GraphData } from "@/types/types";
 
 export function getPeriodDates(period: '7d' | '30d' | '12m'): AnalyticsPeriod {
   const endDate = new Date();
@@ -34,20 +21,20 @@ export function getPeriodDates(period: '7d' | '30d' | '12m'): AnalyticsPeriod {
   return { startDate, endDate };
 }
 
-export function processClicksData(clicks: RawClickData[], period: '7d' | '30d' | '12m'): ClickAnalytics {
+export function processClicksData(clicks: GraphData[], period: '7d' | '30d' | '12m'): ClickAnalytics {
   const { startDate, endDate } = getPeriodDates(period);
-  
+
   // Filter clicks within the period
-  const periodClicks = clicks?.filter(click => 
+  const periodClicks = clicks?.filter(click =>
     click.visitAt && click.visitAt >= startDate && click.visitAt <= endDate
   );
 
   // Group clicks by date
   const clicksByDate = new Map<string, number>();
-  
+
   periodClicks?.forEach(click => {
     if (!click.visitAt) return;
-    
+
     const dateKey = click.visitAt.toISOString().split('T')[0];
     clicksByDate.set(dateKey, (clicksByDate.get(dateKey) || 0) + 1);
   });
@@ -61,10 +48,10 @@ export function processClicksData(clicks: RawClickData[], period: '7d' | '30d' |
 
   // Generate monthly data
   const monthlyClicks = new Map<string, number>();
-  
+
   periodClicks?.forEach(click => {
     if (!click.visitAt) return;
-    
+
     const monthKey = `${click.visitAt.getFullYear()}-${click.visitAt.getMonth() + 1}`;
     monthlyClicks.set(monthKey, (monthlyClicks.get(monthKey) || 0) + 1);
   });
@@ -82,14 +69,14 @@ export function processClicksData(clicks: RawClickData[], period: '7d' | '30d' |
   // Calculate previous period change
   const previousStartDate = new Date(startDate);
   previousStartDate.setDate(previousStartDate.getDate() - (endDate.getTime() - startDate.getTime()) / (1000 * 60 * 60 * 24));
-  
-  const previousPeriodClicks = clicks?.filter(click => 
+
+  const previousPeriodClicks = clicks?.filter(click =>
     click.visitAt && click.visitAt >= previousStartDate && click.visitAt < startDate
   ).length;
 
   const currentPeriodClicks = periodClicks?.length;
-  const previousPeriodChange = previousPeriodClicks === 0 
-    ? 100 
+  const previousPeriodChange = previousPeriodClicks === 0
+    ? 100
     : ((currentPeriodClicks - previousPeriodClicks) / previousPeriodClicks) * 100;
 
   return {

@@ -1,9 +1,10 @@
 'use client';
 
 import { Heading } from "@/components/ui/heading"
-import { ProfileVisitColumn, columns } from "./columns";
+import {  columns } from "./columns";
 import { Separator } from "@/components/ui/separator";
 import { DataTable } from "@/components/ui/data-table";
+import { ProfileVisitColumn } from "@/types/types";
 
 interface ProfileClientProps {
     data: ProfileVisitColumn[];

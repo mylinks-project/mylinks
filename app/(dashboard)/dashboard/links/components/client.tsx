@@ -4,9 +4,10 @@ import { Button } from "@/components/ui/button"
 import { Heading } from "@/components/ui/heading"
 import { Plus } from "lucide-react"
 import { useRouter } from "next/navigation"
-import { LinkColumn, columns } from "./columns";
+import { columns } from "./columns";
 import { Separator } from "@/components/ui/separator";
 import { DataTable } from "@/components/ui/data-table";
+import { LinkColumn } from '@/types/types';
 
 interface LinkClientProps {
     data: LinkColumn[];

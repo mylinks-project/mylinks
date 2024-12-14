@@ -1,6 +1,6 @@
 import React from 'react';
 import { ClickClient } from './components/client';
-import { ClickColumn } from './components/columns';
+import { ClickColumn } from "@/types/types";
 import { format } from 'date-fns';
 import { prisma } from '@/lib/prisma';
 

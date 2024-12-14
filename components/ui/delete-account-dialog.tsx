@@ -23,33 +23,23 @@ import { useRouter } from 'next/navigation';
 import { logout } from '@/actions/logout';
 import { useToast } from '@/hooks/use-toast';
 import { FormError } from '../auth/form-error';
+import { PasswordSchema } from '@/schemas';
 
-const formSchema = z.object({
-    password: z.string().min(6, {
-        message: "Password must be at least 6 characters.",
-    }),
-})
-
-interface PasswordDialogProps {
-    userId: string;
-}
-
-
-export function DeleteAccountDialog({ userId }: PasswordDialogProps) {
+export function DeleteAccountDialog({ userId }: { userId: string }) {
     const router = useRouter();
     const { toast } = useToast();
     const [loading, setLoading] = useState(false);
     const [isOpen, setIsOpen] = useState(false);
     const [isError, setIsError] = useState('');
 
-    const form = useForm<z.infer<typeof formSchema>>({
-        resolver: zodResolver(formSchema),
+    const form = useForm<z.infer<typeof PasswordSchema>>({
+        resolver: zodResolver(PasswordSchema),
         defaultValues: {
             password: '',
         },
     });
 
-    const onSubmit = async (values: z.infer<typeof formSchema>) => {
+    const onSubmit = async (values: z.infer<typeof PasswordSchema>) => {
         try {
             setLoading(true);
             await axios.delete(`/api/user/${userId}`, { data: values });

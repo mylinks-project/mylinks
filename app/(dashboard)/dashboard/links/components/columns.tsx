@@ -3,24 +3,7 @@
 import { ColumnDef } from "@tanstack/react-table"
 import { CellAction } from "./cell-action";
 import Image from "next/image";
-// import Image from "next/image";
-
-export type LinkColumn = {
-    id: string;
-    name?: string | null,
-    username?: string | null,
-    userImage?: string | null,
-    title: string;
-    url: string;
-    platform?: string | null;
-    linkImage?: string | null;
-    gifImage?: string | null;
-    order: number | null;
-    isVisible: boolean | null;
-    userId: string | null;
-    clicks: number | null;
-    createdAt: string;
-}
+import { LinkColumn } from '@/types/types';
 
 export const columns: ColumnDef<LinkColumn>[] = [
     {

@@ -1,44 +1,38 @@
 import * as z from 'zod';
 
-
 export const SettingsSchema = z.object({
-    name: z.optional(z.string()),
-    username: z.optional(z.string()),
-    email: z.optional(z.string().email()),
-    bio: z.optional(z.string()),
-    password: z.optional(z.string().min(6)),
-    newPassword: z.optional(z.string().min(6)),
-})
-    .refine((data) => {
-        if (data.password && !data.newPassword) {
-            return false;
-        }
-
-        return true;
-    }, {
-        message: "New password is required!",
-        path: ["newPassword"]
-    })
-    .refine((data) => {
-        if (data.newPassword && !data.password) {
-            return false;
-        }
-
-        return true;
-    }, {
-        message: "Password is required!",
-        path: ["password"]
-    })
-
-export const ResetSchema = z.object({
-    email: z.string().email({
-        message: "Email is required"
-    }),
-})
+    id: z.string(),
+    name: z.string().min(3),
+    username: z.string().min(3),
+    email: z.string().email(),
+    bio: z.string().optional(),
+    image: z.string().optional(),
+});
 
 export const ResetPasswordSchema = z.object({
     password: z.string().min(6, {
-        message: "Atleast password should be 6 digits"
+        message: "Password must be at least 6 characters.",
+    }),
+    newPassword: z.string().min(6, {
+        message: "New password must be at least 6 characters.",
+    }),
+    confirmNewPassword: z.string().min(6, {
+        message: "Confirm new password must be at least 6 characters.",
+    })
+}).refine((data) => {
+    if (data.newPassword !== data.confirmNewPassword) {
+        return false;
+    }
+
+    return true;
+}, {
+    message: "New password And Confirm New Password should be same",
+    path: ["confirmNewPassword"]
+});
+
+export const PasswordSchema = z.object({
+    password: z.string().min(6, {
+        message: "Password must be at least 6 characters.",
     }),
 })
 
@@ -66,5 +60,3 @@ export const RegisterSchema = z.object({
         message: "Atleast password should be 6 digits"
     }),
 })
-
-

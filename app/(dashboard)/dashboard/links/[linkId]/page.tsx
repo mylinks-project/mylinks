@@ -2,11 +2,11 @@ import React from 'react'
 import { LinkForm } from './components/link-form';
 import { prisma } from '@/lib/prisma';
 
-const LinkPage = async( props: { params: Promise<{ linkId: string }> }) => {
+const LinkPage = async (props: { params: Promise<{ linkId: string }> }) => {
 
   const params = await props.params;
 
-    let link;
+  let link;
 
   if (params.linkId !== 'new') {
     link = await prisma.link.findUnique({
@@ -15,7 +15,6 @@ const LinkPage = async( props: { params: Promise<{ linkId: string }> }) => {
       },
     });
   }
-
 
   return (
     <div className='flex flex-col'>

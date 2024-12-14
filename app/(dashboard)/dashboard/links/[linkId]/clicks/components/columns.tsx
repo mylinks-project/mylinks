@@ -2,20 +2,7 @@
 
 import { ColumnDef } from "@tanstack/react-table"
 import { CellAction } from "./cell-action";
-
-export type ClickColumn = {
-    id: string;
-    userId: string | null;
-    visitId: string | null;
-    ipAddress: string | null;
-    country: string | null;
-    city: string | null;
-    postalCode: string | null;
-    device: string | null;
-    browser: string | null;
-    referer: string | null;
-    clickedAt: string;
-}
+import { ClickColumn } from "@/types/types";
 
 export const columns: ColumnDef<ClickColumn>[] = [
     {
