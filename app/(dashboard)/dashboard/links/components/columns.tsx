@@ -14,6 +14,7 @@ export type LinkColumn = {
     url: string;
     platform?: string | null;
     linkImage?: string | null;
+    gifImage?: string | null;
     order: number | null;
     isVisible: boolean | null;
     userId: string | null;
@@ -72,6 +73,25 @@ export const columns: ColumnDef<LinkColumn>[] = [
                 {row.original.linkImage ?
                     <Image
                         src={row.original.linkImage}
+                        className="rounded border object-cover"
+                        alt="Image"
+                        width={80}
+                        height={80}
+                    />
+                    : <h2>No Image</h2>
+                }
+
+            </div>
+        )
+    },
+    {
+        accessorKey: "gifImage",
+        header: "Gif Image",
+        cell: ({ row }) => (
+            <div className="flex items-center">
+                {row.original.gifImage ?
+                    <Image
+                        src={row.original.gifImage}
                         className="rounded border object-cover"
                         alt="Image"
                         width={80}

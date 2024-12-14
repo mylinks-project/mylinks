@@ -19,6 +19,7 @@ import { Trash } from 'lucide-react';
 import ImageUpload from '@/components/ui/image-upload';
 import Image from 'next/image';
 import Link from 'next/link';
+import GifsSelector from '@/components/dashboard/Gifs-Selector-Dialog';
 
 interface LinkFormProps {
     initialData: LinkProps | null | undefined;
@@ -29,7 +30,8 @@ export type LinkProps = {
     title: string;
     url: string;
     platform?: string | null;
-    linkImage?:string |null;
+    linkImage?: string | null;
+    gifImage?: string | null;
     order: number | null;
     isVisible: boolean | null;
     userId: string | null;
@@ -48,6 +50,7 @@ const formSchema = z.object({
     order: z.coerce.number(),
     isVisible: z.boolean().optional(),
     linkImage: z.string().optional(),
+    gifImage: z.string().optional(),
 });
 
 type LinkFormValues = z.infer<typeof formSchema>
@@ -59,37 +62,43 @@ const templates = {
         platform: "Instagram",
         title: "My Instagram Profile",
         url: "https://instagram.com/<username>",
-        linkImage: 'https://upload.wikimedia.org/wikipedia/commons/thumb/e/e7/Instagram_logo_2016.svg/132px-Instagram_logo_2016.svg.png?20210403190622'
+        linkImage: "https://upload.wikimedia.org/wikipedia/commons/thumb/e/e7/Instagram_logo_2016.svg/132px-Instagram_logo_2016.svg.png?20210403190622",
+        gifImage: "https://media0.giphy.com/media/3otPoxmSN3r1lNErf2/200.gif?cid=0f949c40bpnv6cbdh8fjrz6pyexc7k4dazqbe6rld0sbjin1&ep=v1_gifs_search&rid=200.gif&ct=g"
     },
     Twitter: {
         platform: "Twitter",
         title: "My Twitter Profile",
         url: "https://twitter.com/<username>",
-        linkImage: 'https://www.logo.wine/a/logo/Twitter/Twitter-Logo.wine.svg'
+        linkImage: "https://www.logo.wine/a/logo/Twitter/Twitter-Logo.wine.svg",
+        gifImage: "https://media3.giphy.com/media/JRE3AvLsSRXg360F6l/200.gif?cid=0f949c40x3w7c7r77ecxjrow40q0acwgbki2bttwaqmu5x6k&ep=v1_gifs_search&rid=200.gif&ct=g"
     },
     YouTube: {
         platform: "YouTube",
         title: "My YouTube Channel",
         url: "https://youtube.com/@<channel-name>",
-        linkImage: 'https://t3.ftcdn.net/jpg/04/74/05/94/360_F_474059464_qldYuzxaUWEwNTtYBJ44VN89ARuFktHW.jpg'
+        linkImage: "https://t3.ftcdn.net/jpg/04/74/05/94/360_F_474059464_qldYuzxaUWEwNTtYBJ44VN89ARuFktHW.jpg",
+        gifImage: "https://media4.giphy.com/media/13Nc3xlO1kGg3S/200.gif?cid=0f949c40ayq93jg9ugju1duvkmspv3l0o9u7p9t3fq5crxh7&ep=v1_gifs_search&rid=200.gif&ct=g"
     },
     GitHub: {
         platform: "GitHub",
         title: "My GitHub",
         url: "https://github.com/<username>",
-        linkImage: 'https://cdn.pixabay.com/photo/2022/01/30/13/33/github-6980894_1280.png'
+        linkImage: "https://cdn.pixabay.com/photo/2022/01/30/13/33/github-6980894_1280.png",
+        gifImage: "https://media0.giphy.com/media/Ws6T5PN7wHv3cY8xy8/200.gif?cid=0f949c4038pp9hjp9ii1nbsdisggod1ntdl39n0mq09kxm3l&ep=v1_gifs_search&rid=200.gif&ct=g"
     },
     OnlyFans: {
         platform: "OnlyFans",
         title: "My OnlyFans",
         url: "https://onlyfans.com/<username>",
-        linkImage: 'https://i.pinimg.com/736x/db/61/06/db61064824c35478f29de95608312454.jpg'
+        linkImage: "https://i.pinimg.com/736x/db/61/06/db61064824c35478f29de95608312454.jpg",
+        gifImage: "https://media1.giphy.com/media/1qZ7Ny4dYqhxwftGvG/200.gif?cid=0f949c4039829tjw5dh7u1degc3gd7d77ms41mlriavbf0pv&ep=v1_gifs_search&rid=200.gif&ct=g"
     },
     WebSite: {
         platform: "WebSite",
         title: "My Website",
         url: "https://<yourdomain.com>",
-        linkImage: 'https://t4.ftcdn.net/jpg/01/33/48/03/240_F_133480376_PWlsZ1Bdr2SVnTRpb8jCtY59CyEBdoUt.jpg'
+        linkImage: "https://t4.ftcdn.net/jpg/01/33/48/03/240_F_133480376_PWlsZ1Bdr2SVnTRpb8jCtY59CyEBdoUt.jpg",
+        gifImage: "https://media3.giphy.com/media/2ikwIgNrmPZICNmRyX/200.gif?cid=0f949c40zyynr2elzlbrwvqrvg9t9vuj6zipunf2h2exduad&ep=v1_gifs_search&rid=200.gif&ct=g"
     },
 };
 
@@ -124,7 +133,8 @@ export const LinkForm: React.FC<LinkFormProps> = ({
                 platform: initialData.platform ?? '',
                 order: initialData.order ?? 0,
                 isVisible: initialData.isVisible ?? false,
-                linkImage: initialData.linkImage ?? ''
+                linkImage: initialData.linkImage ?? '',
+                gifImage: initialData.gifImage ?? ''
             }
             : {
                 url: '',
@@ -132,7 +142,8 @@ export const LinkForm: React.FC<LinkFormProps> = ({
                 platform: '',
                 order: 0,
                 isVisible: true,
-                linkImage: ''
+                linkImage: '',
+                gifImage: ''
             },
     });
 
@@ -233,15 +244,15 @@ export const LinkForm: React.FC<LinkFormProps> = ({
             <div className='flex flex-col justify-center items-center gap-y-4 space-x-4'>
                 <h2>Select Default templete</h2>
                 <div className='flex flex-wrap justify-center items-center gap-2'>
-                {Object.keys(templates).map((key) => (
-                    <Button
-                        key={key}
-                        variant={selectedTemplate === key ? 'default' : 'outline'}
-                        onClick={() => applyTemplate(key as keyof typeof templates)}  // Type assertion here
-                    >
-                        {key}
-                    </Button>
-                ))}
+                    {Object.keys(templates).map((key) => (
+                        <Button
+                            key={key}
+                            variant={selectedTemplate === key ? 'default' : 'outline'}
+                            onClick={() => applyTemplate(key as keyof typeof templates)}  // Type assertion here
+                        >
+                            {key}
+                        </Button>
+                    ))}
                 </div>
 
             </div>
@@ -308,6 +319,7 @@ export const LinkForm: React.FC<LinkFormProps> = ({
                                 </FormItem>
                             )}
                         />
+
                         <FormField
                             control={form.control}
                             name='order'
@@ -326,7 +338,8 @@ export const LinkForm: React.FC<LinkFormProps> = ({
                                 </FormItem>
                             )}
                         />
-
+                    </div>
+                    <div className='grid grid-cols-1 gap-8 md:grid-cols-2'>
                         <FormField
                             control={form.control}
                             name='linkImage'
@@ -345,6 +358,17 @@ export const LinkForm: React.FC<LinkFormProps> = ({
                                 </FormItem>
                             )}
                         />
+                        <FormField
+                            control={form.control}
+                            name='gifImage'
+                            render={({ field }) => (
+                                <FormItem>
+                                    <FormLabel>Gif Image (optional)</FormLabel>
+                                    <GifsSelector value={field.value} setValue={field.onChange} />
+                                    <FormMessage />
+                                </FormItem>
+                            )}
+                        />
                     </div>
                     <FormError message={isError} />
                     <Button disabled={loading} className='ml-auto' type='submit'>{action}</Button>
@@ -352,7 +376,7 @@ export const LinkForm: React.FC<LinkFormProps> = ({
                     <div className='flex justify-center items-center'>
                         {form.getValues("url") && (
                             <Link href={form.getValues("url")}>
-                                <Button className="w-52 justify-start gap-3 py-6 border hover:scale-105 h-10 animate-background-shine items-center rounded-md border-gray-800 bg-[linear-gradient(110deg,#000103,45%,#1e2631,55%,#000103)] bg-[length:200%_100%] px-6 font-medium text-gray-200 transition-colors sm:inline-flex hover:opacity-80 hover:bg-black/10 trans">
+                                <Button className=" w-full justify-start gap-3 py-6 border hover:scale-105 h-10 animate-background-shine items-center rounded-md border-gray-800 bg-[linear-gradient(110deg,#000103,45%,#1e2631,55%,#000103)] bg-[length:200%_100%] px-6 font-medium text-gray-200 transition-colors sm:inline-flex hover:opacity-80 hover:bg-black/10 trans">
                                     {form.getValues('linkImage') &&
                                         <Image
                                             src={form.getValues('linkImage') || ''}
@@ -363,6 +387,16 @@ export const LinkForm: React.FC<LinkFormProps> = ({
                                         />
                                     }
                                     {form.getValues("title")}
+                                    {form.getValues('gifImage') &&
+                                        <Image
+                                            src={form.getValues('gifImage') || ''}
+                                            className="rounded object-cover "
+                                            alt="Image"
+                                            width={42}
+                                            height={30}
+                                            loading={'eager'}
+                                        />
+                                    }
                                 </Button>
                             </Link>
                         )}

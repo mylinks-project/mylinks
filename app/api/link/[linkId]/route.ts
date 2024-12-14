@@ -11,7 +11,7 @@ export async function PATCH(req: Request, props: { params: Promise<{ linkId: str
         const session = await auth();
         const userId = session?.user.id;
 
-        const { title, url, platform, linkImage,isVisible, order } = await req.json();
+        const { title, url, platform, linkImage,gifImage,isVisible, order } = await req.json();
         console.log(title, url, platform, isVisible, order);
 
 
@@ -42,6 +42,7 @@ export async function PATCH(req: Request, props: { params: Promise<{ linkId: str
                 isVisible: isVisible,
                 order: isOrder,
                 linkImage,
+                gifImage:gifImage,
                 userId: userId,
             }
         });
