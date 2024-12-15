@@ -85,11 +85,36 @@ const nextConfig: NextConfig = {
         hostname: 'media3.giphy.com',
       },
       {
+        protocol: 'https',
         hostname: 'media4.giphy.com',
       },
       {
         protocol: 'https',
         hostname: 'media5.giphy.com',
+      },
+      {
+        protocol: 'https',
+        hostname: 'store-images.s-microsoft.com',
+      },
+      {
+        protocol: 'https',
+        hostname: 'img.freepik.com',
+      },
+      {
+        protocol: 'https',
+        hostname: 'images.squarespace-cdn.com',
+      },
+      {
+        protocol: 'https',
+        hostname: 'scontent.faip1-1.fna.fbcdn.net',
+      },
+      {
+        protocol: 'https',
+        hostname: 'www.itvoice.in',
+      },
+      {
+        protocol: 'https',
+        hostname: 'yt3.googleusercontent.com',
       },
     ],
   },
