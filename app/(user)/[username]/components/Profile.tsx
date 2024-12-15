@@ -41,7 +41,7 @@ export default function ProfileLink({ link, profileVisitId }: { link: ProfileLin
                 {link.gifImage &&
                     <Image
                         src={link.gifImage}
-                        className="rounded object-cover "
+                        className="rounded object-cover max-w-[42px] max-h-[40px]"
                         alt="Image"
                         width={42}
                         height={30}
