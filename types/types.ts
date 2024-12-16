@@ -31,11 +31,11 @@ export interface UserProfileLinkProps {
   userImage: string | null;
   links: {
     id: string;
-    title: string;
+    title: string | null;
     url: string;
-    platform?: string | null;
-    linkImage?: string | null;
-    gifImage?: string | null;
+    platform: string | null;
+    linkImage: string | null;
+    gifImage: string | null;
     order: number;
     isVisible: boolean | null;
   }[]
