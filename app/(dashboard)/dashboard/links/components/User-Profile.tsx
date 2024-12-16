@@ -6,6 +6,12 @@ import {
 } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
+import {
+    HoverCard,
+    HoverCardContent,
+    HoverCardTrigger,
+} from "@/components/ui/hover-card"
+import { UserHoverCard } from '@/components/ui/User-Hover-Card';
 
 export default function UserProfilePage({ user }: { user: UserProfileLinkProps }) {
     return (
@@ -26,38 +32,45 @@ export default function UserProfilePage({ user }: { user: UserProfileLinkProps }
                 </div>
                 <div className="space-y-4">
                     {user?.links.sort((a, b) => a.order - b.order).map((link) => (
-                        <Link
-                            key={link.id}
-                            href={link.url}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                        >
-                            <Button
-                                variant="ghost"
-                                className="w-full justify-start gap-3 py-6 border hover:scale-105 h-10 animate-background-shine items-center rounded-md border-gray-800 bg-[linear-gradient(110deg,#000103,45%,#1e2631,55%,#000103)] bg-[length:200%_100%] px-6 font-medium text-gray-200 transition-colors sm:inline-flex hover:opacity-80 hover:bg-black/10 trans"
-                            >
-                                {link.linkImage &&
-                                    <Image
-                                        src={link.linkImage}
-                                        className="rounded object-cover"
-                                        alt="Image"
-                                        width={30}
-                                        height={30}
-                                    />
-                                }
-                                <span>{link.title}</span>
-                                {link.gifImage &&
-                                    <Image
-                                        src={link.gifImage}
-                                        className="rounded object-cover max-w-[42px] max-h-[40px]"
-                                        alt="Image"
-                                        width={42}
-                                        height={30}
-                                        loading={'eager'}
-                                    />
-                                }
-                            </Button>
-                        </Link>
+                        <HoverCard key={link.id}>
+                            <HoverCardTrigger>
+                                <Link
+
+                                    href={link.url}
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                >
+                                    <Button
+                                        variant="ghost"
+                                        className="w-full justify-start gap-3 py-6 border hover:scale-105 h-10 animate-background-shine items-center rounded-md border-gray-800 bg-[linear-gradient(110deg,#000103,45%,#1e2631,55%,#000103)] bg-[length:200%_100%] px-6 font-medium text-gray-200 transition-colors sm:inline-flex hover:opacity-80 hover:bg-black/10 trans"
+                                    >
+                                        {link.linkImage &&
+                                            <Image
+                                                src={link.linkImage}
+                                                className="rounded object-cover"
+                                                alt="Image"
+                                                width={30}
+                                                height={30}
+                                            />
+                                        }
+                                        <span>{link.title}</span>
+                                        {link.gifImage &&
+                                            <Image
+                                                src={link.gifImage}
+                                                className="rounded object-cover max-w-[42px] max-h-[40px]"
+                                                alt="Image"
+                                                width={42}
+                                                height={30}
+                                                loading={'eager'}
+                                            />
+                                        }
+                                    </Button>
+                                </Link>
+                            </HoverCardTrigger>
+                            <HoverCardContent className='p-0 m-0'>
+                                <UserHoverCard user={link} />
+                            </HoverCardContent>
+                        </HoverCard>
                     ))}
                 </div>
             </div>
