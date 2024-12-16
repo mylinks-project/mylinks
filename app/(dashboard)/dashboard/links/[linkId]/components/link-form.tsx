@@ -436,7 +436,7 @@ export const LinkForm: React.FC<LinkFormProps> = ({
                             <HoverCard>
                                 <HoverCardTrigger>
                                     <Link href={form.getValues("url")}>
-                                        <Button className=" w-full justify-start gap-4 py-6 border hover:scale-105 h-10 animate-background-shine items-center rounded-md border-gray-800 bg-[linear-gradient(110deg,#000103,45%,#1e2631,55%,#000103)] bg-[length:200%_100%] px-6 font-medium text-gray-200 transition-colors sm:inline-flex hover:opacity-80 hover:bg-black/10 trans" >
+                                        <Button className=" w-full justify-start gap-4 py-6 border hover:scale-105 h-10 animate-background-shine items-center rounded-md border-gray-800 bg-[linear-gradient(110deg,#000103,45%,#1e2631,55%,#000103)] bg-[length:200%_100%] px-6 font-medium text-gray-200 transition-colors sm:inline-flex hover:text-gray-200 hover:bg-black/10 trans" >
                                             {form.getValues('linkImage') &&
                                                 <Image
                                                     src={form.getValues('linkImage') || ''}
