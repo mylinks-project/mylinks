@@ -6,6 +6,7 @@ import {
 } from "lucide-react";
 import ProfileLink from "./components/Profile";
 import { ModeToggle } from "@/components/app/Mode-Toggle";
+import { UserNotFound } from "@/components/app/User-Error";
 
 export default async function UserPage(
   props: { params: Promise<{ username: string }> }
@@ -23,6 +24,10 @@ export default async function UserPage(
       }
     }
   });
+
+  if (!userInfo) {
+    return <UserNotFound />
+  }
 
   const visitProfile = await axios.post(`${process.env.BASE_URL}/api/visit`, { userId: userInfo?.id });
 
