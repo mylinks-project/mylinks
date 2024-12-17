@@ -11,7 +11,7 @@ import { LinkColumn } from '@/types/types';
 import { Button } from "@/components/ui/button";
 import { Copy, Edit, Link, MoreHorizontal, Trash } from "lucide-react";
 import { useRouter } from "next/navigation";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import axios from "axios";
 import { AlertModal } from "@/components/ui/alert-modal";
 import { useToast } from "@/hooks/use-toast";
@@ -38,7 +38,6 @@ export const CellAction: React.FC<CellActionProps> = ({
             setLoading(true);
             await axios.delete(`/api/link/${data.id}`);
             router.refresh();
-            // router.push('/')
             toast({ title: "Link Deleted Successfully" });
         } catch (error) {
             if (axios.isAxiosError(error)) {
@@ -58,11 +57,6 @@ export const CellAction: React.FC<CellActionProps> = ({
             setOpen(false)
         }
     }
-
-    useEffect(() => {
-        router.refresh();
-
-    })
 
     return (
         <>
