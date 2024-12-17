@@ -10,7 +10,6 @@ import {
 import { Button } from "@/components/ui/button";
 import { Copy, Link, MoreHorizontal } from "lucide-react";
 import { useRouter } from "next/navigation";
-import { useEffect } from "react";
 import { useToast } from "@/hooks/use-toast";
 import { ProfileVisitColumn } from "@/types/types";
 
@@ -22,17 +21,12 @@ export const CellAction: React.FC<CellActionProps> = ({
     data
 }) => {
     const { toast } = useToast();
-
     const router = useRouter();
 
     const onCopy = (id: string) => {
         navigator.clipboard.writeText(id);
         toast({ title: 'Color Id copied to the clipboard.' });
     }
-
-    useEffect(() => {
-        router.refresh();
-    })
 
     return (
         <>

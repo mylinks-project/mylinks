@@ -14,9 +14,6 @@ export const ClickClient: React.FC<ClickClientProps> = ({
     data
 }) => {
 
-
-    // const [loading, setLoading] = useState(false);
-
     return (
         <>
             <div className="flex items-center justify-between">
