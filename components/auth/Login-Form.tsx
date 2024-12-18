@@ -3,6 +3,8 @@
 import { LoginSchema } from '@/schemas';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
+import { useGoogleReCaptcha } from 'react-google-recaptcha-v3';
+
 import * as z from 'zod';
 
 import { Button } from "@/components/ui/button"
@@ -18,7 +20,7 @@ import {
 import { Input } from "@/components/ui/input"
 import { FormError } from '@/components/auth/form-error';
 import { FormSuccess } from '@/components/auth/form-success';
-import { useState, useTransition } from 'react';
+import { useState } from 'react';
 import { useSearchParams } from 'next/navigation';
 import Link from 'next/link';
 import { ClipLoader } from 'react-spinners';
@@ -33,10 +35,11 @@ const LoginForm = () => {
     const urlError = searchParams.get("error") === "OAuthAccountNotLinked"
         ? "Email already in use with different provider!"
         : "";
+    const { executeRecaptcha } = useGoogleReCaptcha(); // Use the hook to access reCAPTCHA
 
     // const [showTwoFactor, setShowTwoFactor] = useState(false);
 
-    const [isPending, startTransition] = useTransition();
+    const [isLoading, setIsLoading] = useState(false);
     const [isError, setIsError] = useState<string | undefined>("");
     const [isSuccess, setIsSuccess] = useState<string | undefined>("");
 
@@ -51,17 +54,40 @@ const LoginForm = () => {
     const onSubmit = async (values: z.infer<typeof LoginSchema>) => {
         setIsError("");
         setIsSuccess("");
-        startTransition(() => {
-            login(values).then((data) => {
-                if (data?.error) {
-                    setIsError(data?.error)
-                }
-            }).catch(() => {
-                setIsError("Something went wrong")
-            })
-        });
 
-    }
+        console.log('login submit')
+
+        if (!executeRecaptcha) {
+            console.error('ReCAPTCHA not ready');
+            setIsError("ReCAPTCHA is not loaded yet. Please try again.");
+            return;
+        }
+    
+        try {
+            setIsLoading(true);
+    
+            // Generate the reCAPTCHA token
+            const token = await executeRecaptcha('login');
+    
+            if (!token) {
+                throw new Error("Failed to generate reCAPTCHA token.");
+            }
+    
+            const data = await login({ ...values, recaptchaToken: token });
+    
+            if (data?.error) {
+                setIsError(data?.error);
+            } else {
+                setIsSuccess("Login successful!");
+            }
+        } catch (error) {
+            console.error(error);
+            setIsError("Something went wrong. Please try again.");
+        } finally {
+            setIsLoading(false);
+        }
+    };
+    
 
 
     return (
@@ -83,7 +109,7 @@ const LoginForm = () => {
                                 <FormItem>
                                     <FormLabel>Email</FormLabel>
                                     <FormControl>
-                                        <Input disabled={isPending} type='email' placeholder="johndoe@gmail.com" {...field} />
+                                        <Input disabled={isLoading} type='email' placeholder="johndoe@gmail.com" {...field} />
                                     </FormControl>
                                     <FormMessage />
                                 </FormItem>
@@ -97,7 +123,7 @@ const LoginForm = () => {
                                     <div className='flex justify-between items-center'>
                                         <FormLabel>Password</FormLabel>
                                         <Button
-                                            disabled={isPending}
+                                            disabled={isLoading}
                                             size={"sm"}
                                             variant={"link"}
                                             className='px-0 font-normal'
@@ -111,11 +137,11 @@ const LoginForm = () => {
 
                                     </div>
                                     <FormControl>
-                                        <Input disabled={isPending} type='password' placeholder="******" {...field} />
+                                        <Input disabled={isLoading} type='password' placeholder="******" {...field} />
                                     </FormControl>
                                     <FormMessage />
                                     <Button
-                                        disabled={isPending}
+                                        disabled={isLoading}
                                         size={"sm"}
                                         variant={"link"}
                                         className='flex items-center justify-center p-0 font-normal'>
@@ -131,8 +157,8 @@ const LoginForm = () => {
 
                         <FormError message={isError || urlError} />
                         <FormSuccess message={isSuccess} />
-                        <Button disabled={isPending} type="submit" className='w-full bg-white border text-black hover:bg-gray-50 hover:opacity-90' >
-                            {isPending && <ClipLoader color="black" size={20} className="mr-2" />}
+                        <Button disabled={isLoading} type="submit" className='w-full bg-white border text-black hover:bg-gray-50 hover:opacity-90' >
+                            {isLoading && <ClipLoader color="black" size={20} className="mr-2" />}
                             Sign in with Email
                         </Button>
                         <div className="flex items-center justify-center ">

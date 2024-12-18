@@ -1,20 +1,17 @@
-import type { Metadata } from "next";
+'use client';
 
-export const metadata: Metadata = {
-    title: "Authentication Page",
-    description: "Securely log in or sign up to access your account.",
-    keywords: ["Authentication", "Login", "Sign Up", "Secure Access"],
-    openGraph: {
-        title: "Authentication Page",
-        description: "Securely log in or sign up to access your account.",
-        type: "website"
-    },
-}
+import { GoogleReCaptchaProvider } from 'react-google-recaptcha-v3';
 
-export default async function AuthLayout({
+export default function AuthLayout({
     children,
 }: Readonly<{
     children: React.ReactNode;
 }>) {
-    return <div className="mx-4 pt-20 pb-5">{children}</div>;
+    return (
+        <GoogleReCaptchaProvider reCaptchaKey={process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY!}>
+            <div className="mx-4 pt-20 pb-5">
+                {children}
+            </div>
+        </GoogleReCaptchaProvider>
+    )
 }
