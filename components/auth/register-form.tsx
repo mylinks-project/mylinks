@@ -18,7 +18,7 @@ import {
 import { Input } from "@/components/ui/input"
 import { FormError } from '@/components/auth/form-error';
 import { FormSuccess } from '@/components/auth/form-success';
-import { useState, useTransition } from 'react';
+import { useState } from 'react';
 import { register } from '@/actions/register';
 import { ClipLoader } from 'react-spinners';
 import Link from 'next/link';
@@ -26,13 +26,16 @@ import { useRouter } from 'next/navigation';
 import { Social } from './social-login';
 import Image from 'next/image';
 import logo from '../../assets/logo-base-256x256.png'
+import { useGoogleReCaptcha } from 'react-google-recaptcha-v3';
 
 const RegisterForm = () => {
 
     const router = useRouter();
-    const [isPending, startTransition] = useTransition();
+    const [isLoading, setIsLoading] = useState(false);
     const [isError, setIsError] = useState<string | undefined>("");
     const [isSuccess, setIsSuccess] = useState<string | undefined>("");
+
+    const { executeRecaptcha } = useGoogleReCaptcha();
 
     const form = useForm<z.infer<typeof RegisterSchema>>({
         resolver: zodResolver(RegisterSchema),
@@ -47,22 +50,38 @@ const RegisterForm = () => {
     const onSubmit = async (values: z.infer<typeof RegisterSchema>) => {
         setIsError("");
         setIsSuccess("");
-        startTransition(() => {
-            register(values).then((data) => {
-                if (data?.error) {
-                    // form.reset();
-                    setIsError(data?.error)
-                }
-                // console.log(data);
-                if (data?.success) {
-                    setIsSuccess(data?.success)
-                    router.push('/login');
-                    form.reset();
-                }
-            }).catch(() => {
-                setIsError("Something went wrong")
-            })
-        });
+        
+        if (!executeRecaptcha) {
+            console.error('ReCAPTCHA not ready');
+            setIsError("ReCAPTCHA is not loaded yet. Please try again.");
+            return;
+        }
+
+        try {
+
+            setIsLoading(true);
+            const token = await executeRecaptcha('register');
+
+            if (!token) {
+                throw new Error("Failed to generate reCAPTCHA token.");
+            }
+
+            const data = await register({ ...values, recaptchaToken: token });
+
+            if (data?.error) {
+                setIsError(data?.error);
+            } else {
+                setIsError(data?.success);
+                router.push('/login')
+            }
+
+        } catch (error) {
+            console.error(error);
+            setIsError("Something went wrong. Please try again.");
+        } finally {
+            setIsLoading(false);
+        }
+
     }
 
     return (
@@ -91,7 +110,7 @@ const RegisterForm = () => {
                                 <FormItem>
                                     <FormLabel>Name</FormLabel>
                                     <FormControl>
-                                        <Input disabled={isPending} type='name' placeholder="John Doe" {...field} />
+                                        <Input disabled={isLoading} type='name' placeholder="John Doe" {...field} />
                                     </FormControl>
                                     <FormMessage />
                                 </FormItem>
@@ -104,7 +123,7 @@ const RegisterForm = () => {
                                 <FormItem>
                                     <FormLabel>Username</FormLabel>
                                     <FormControl>
-                                        <Input disabled={isPending} type='username' placeholder="johndoe1" {...field} />
+                                        <Input disabled={isLoading} type='username' placeholder="johndoe1" {...field} />
                                     </FormControl>
                                     <FormMessage />
                                 </FormItem>
@@ -117,7 +136,7 @@ const RegisterForm = () => {
                                 <FormItem>
                                     <FormLabel>Email</FormLabel>
                                     <FormControl>
-                                        <Input disabled={isPending} type='email' placeholder="johndoe@gmail.com" {...field} />
+                                        <Input disabled={isLoading} type='email' placeholder="johndoe@gmail.com" {...field} />
                                     </FormControl>
                                     <FormMessage />
                                 </FormItem>
@@ -130,11 +149,11 @@ const RegisterForm = () => {
                                 <FormItem>
                                     <FormLabel>Password</FormLabel>
                                     <FormControl>
-                                        <Input disabled={isPending} type='password' placeholder="******" {...field} />
+                                        <Input disabled={isLoading} type='password' placeholder="******" {...field} />
                                     </FormControl>
                                     <FormMessage />
                                     <Button
-                                        disabled={isPending}
+                                        disabled={isLoading}
                                         size={"sm"}
                                         variant={"link"}
                                         className='flex items-center justify-center p-0 font-normal'>
@@ -149,8 +168,8 @@ const RegisterForm = () => {
                         />
                         <FormError message={isError} />
                         <FormSuccess message={isSuccess} />
-                        <Button disabled={isPending} type="submit" className='w-full ' >
-                            {isPending && <ClipLoader color="black" size={20} className="mr-2" />}
+                        <Button disabled={isLoading} type="submit" className='w-full ' >
+                            {isLoading && <ClipLoader color="black" size={20} className="mr-2" />}
                             Create an Account
                         </Button>
                     </form>
