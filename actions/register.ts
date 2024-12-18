@@ -35,9 +35,6 @@ export const register = async (values: z.infer<typeof RegisterSchema>) => {
 
     try {
 
-        console.log(recaptchaToken);
-        
-
         const isRecaptchaValid = await verifyRecaptcha(recaptchaToken);
 
         if (!isRecaptchaValid) {
