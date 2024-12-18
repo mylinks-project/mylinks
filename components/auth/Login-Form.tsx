@@ -35,7 +35,7 @@ const LoginForm = () => {
     const urlError = searchParams.get("error") === "OAuthAccountNotLinked"
         ? "Email already in use with different provider!"
         : "";
-    const { executeRecaptcha } = useGoogleReCaptcha(); // Use the hook to access reCAPTCHA
+    const { executeRecaptcha } = useGoogleReCaptcha();
 
     // const [showTwoFactor, setShowTwoFactor] = useState(false);
 
@@ -55,11 +55,9 @@ const LoginForm = () => {
         setIsError("");
         setIsSuccess("");
 
-        console.log('login submit')
-
         if (!executeRecaptcha) {
             console.error('ReCAPTCHA not ready');
-            setIsError("ReCAPTCHA is not loaded yet. Please try again.");
+            setIsError("ReCAPTCHA is not loaded yet. Please refresh and try again.");
             return;
         }
     

@@ -16,8 +16,7 @@ export const verifyRecaptcha = async (token: string): Promise<boolean> => {
     });
 
     const data = await response.json();
-    console.log('reCAPTCHA Response:', data); // Debugging log
-
+    
     // Ensure "success" is true and "score" is above 0.5 for higher security
     return data.success && data.score >= 0.5;
 };
